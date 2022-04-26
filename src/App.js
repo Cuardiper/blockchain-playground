@@ -1,5 +1,5 @@
+import React from 'react';
 import ResponsiveAppBar from "./layout/ResponsiveAppBar";
-import { Link } from "react-router-dom";
 
 function App() {
   return (

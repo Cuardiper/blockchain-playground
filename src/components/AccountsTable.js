@@ -11,12 +11,11 @@ function createData(Address, Balance) {
   return { Address, Balance };
 }
 
-const rows = [
-  createData('0x5263317596471A14153B9d2F99fBA6B153CafEB5', 1000),
-  createData('0x0ED72b69FcfD5c8B8fBde78fdb32aa04b12f8eFa', 1000),
-];
-
-export default function AccountsTable() {
+export default function AccountsTable(props) {
+  const rows = [];
+  props.accounts.forEach(account => {
+    rows.push(createData(account.address, account.balance));
+  });
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -37,7 +36,7 @@ export default function AccountsTable() {
                 {row.Address}
               </TableCell>
               <TableCell align="right">{row.Balance}</TableCell>
-              <TableCell align="right"><a href="/">Transfer</a></TableCell>
+              <TableCell align="right"><a href="/">Select</a> <a href="/">Transfer</a></TableCell>
             </TableRow>
           ))}
         </TableBody>

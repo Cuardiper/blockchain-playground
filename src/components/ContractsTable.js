@@ -1,29 +1,31 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-function createData(Address, Balance) {
-  return { Address, Balance };
+function createData(Name, Address) {
+  return { Name, Address };
 }
 
-const rows = [
-  createData('0x5263317596471A14153B9d2F99fBA6B153CafEB5', 1000),
-  createData('0x0ED72b69FcfD5c8B8fBde78fdb32aa04b12f8eFa', 1000),
-];
+export default function ContractsTable(props) {
+  const rows = [];
+  let contracts = props.smartContracts;
 
-export default function ContractsTable() {
+  for (let i = 0; i < contracts.length; i++) {
+    rows.push(createData(contracts[i].name, '0xA'));
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
+            <TableCell>Contract</TableCell>
             <TableCell>Address</TableCell>
-            <TableCell align="right">Balance</TableCell>
             <TableCell align="right">Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -31,13 +33,15 @@ export default function ContractsTable() {
           {rows.map((row) => (
             <TableRow
               key={row.Address}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.Address}
+                {row.Name}
               </TableCell>
-              <TableCell align="right">{row.Balance}</TableCell>
-              <TableCell align="right"><a href="/">Transfer</a></TableCell>
+              <TableCell>{row.Address}</TableCell>
+              <TableCell align="right">
+                <a href="/">Compile</a>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
