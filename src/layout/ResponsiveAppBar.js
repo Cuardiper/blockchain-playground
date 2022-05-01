@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 const pages = ['Accounts', 'Smart Contracts', 'WIP'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -109,7 +109,7 @@ const ResponsiveAppBar = () => {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <Typography >0xAABBCC</Typography>
+              <Typography >{props.selectedAccount}</Typography>
             </Tooltip>
             <Menu
               sx={{ mt: '45px' }}

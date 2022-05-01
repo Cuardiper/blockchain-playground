@@ -1,9 +1,50 @@
 import React, { useEffect, useState } from "react";
-
 import ContractsTable from "../components/ContractsTable";
+
+//INDEXED DB
+const indexedDB =
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB ||
+  window.shimIndexedDB;
+if (!indexedDB) {
+  alert("IndexedDB could not be found in this browser.");
+}
+else {
+  console.log("IndexedDB found in this browser.");
+}
+
+let db;
+var request = indexedDB.open("ContractsDB", 1);
+
+request.onerror = function() {
+  alert("Database could not be opened");
+  console.log("Database error: " + request.errorCode);
+};
+
+request.onsuccess = function() {
+  db = request.result;
+  console.log("IndexedDB opened successfully");
+  return db;
+};
+
+request.onupgradeneeded = function() {
+  let db = request.result;
+  var objectStore = db.createObjectStore("Contracts", {
+    keyPath: "id",
+    autoIncrement: true,
+  });
+  objectStore.createIndex("name", "name", { unique: false });
+  objectStore.createIndex("address", "address", { unique: true });
+  console.log("Database upgrade needed");
+};
+/////END INDEXED DB/////
+
 
 export default function SmartContracts() {
   const [smartContracts, setsmartContracts] = useState([]);
+  const [filesContent, setFilesContent] = useState([]);
 
   var fs = require("browserify-fs");
 
@@ -12,20 +53,22 @@ export default function SmartContracts() {
       if (err) {
         console.log(err);
       } else {
-        let res = [];
+        let names = [];
+        let contents = [];
         files.forEach(function(file) {
           if (file.endsWith(".sol")) {
-            //read file
+            names.push(file);
             fs.readFile("/SmartContracts/" + file, "utf8", function(err, data) {
               if (err) {
                 console.log(err);
               } else {
-                res.push([file, data]);
+                contents.push(data);
               }
             });
           }
         });
-        setsmartContracts(res);
+        setsmartContracts(names);
+        setFilesContent(contents);
       }
     });
   };
@@ -53,12 +96,30 @@ export default function SmartContracts() {
           console.log("File created successfully!");
         }
       });
+      //Escribe también una entrada en la BD
+      const transaction = db.transaction("Contracts", "readwrite");
+      const store = transaction.objectStore("Contracts");
+      store.put({ id: 1, name: name, address: "", abi: "" });
     };
     reader.readAsText(e.target.files[0]);
   };
 
+  let loadContractsFromDB = () => {
+    //1
+    const transaction = db.transaction("Contracts", "readwrite");
+    //2
+    const store = transaction.objectStore("Contracts");
+    //4
+    const idQuery = store.get(1);
+    // 5
+    idQuery.onsuccess = function() {
+      console.log("idQuery", idQuery.result);
+    };
+  };
+
   useEffect(() => {
     findSolidityFiles();
+    loadContractsFromDB();
   }, []);
 
   return (

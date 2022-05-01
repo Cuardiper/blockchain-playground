@@ -15,9 +15,12 @@ export default function ContractsTable(props) {
   const rows = [];
   let contracts = props.smartContracts;
 
-  for (let i = 0; i < contracts.length; i++) {
-    rows.push(createData(contracts[i].name, '0xA'));
-  }
+  console.log(contracts.length);
+
+  contracts.forEach((contract, index) => {
+    console.log(contract);
+    rows.push(createData(contract, '-'));
+  });
 
   return (
     <TableContainer component={Paper}>
@@ -40,7 +43,7 @@ export default function ContractsTable(props) {
               </TableCell>
               <TableCell>{row.Address}</TableCell>
               <TableCell align="right">
-                <a href="/">Compile</a>
+                ?
               </TableCell>
             </TableRow>
           ))}
