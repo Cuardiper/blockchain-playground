@@ -79,6 +79,7 @@ export default function Accounts(props) {
       const response = await signer.sendTransaction(transaction);
       console.log(response);
     }
+    fetchAccounts();
   };
 
   useEffect(() => {
