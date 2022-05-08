@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import DeployButton from "./DeployButton";
 
 function createData(Name, Address) {
   return { Name, Address };
@@ -15,10 +16,9 @@ export default function ContractsTable(props) {
   const rows = [];
   let contracts = props.smartContracts;
 
-  console.log(contracts.length);
+  
 
   contracts.forEach((contract, index) => {
-    console.log(contract);
     rows.push(createData(contract, '-'));
   });
 
@@ -33,7 +33,7 @@ export default function ContractsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row, index) => (
             <TableRow
               key={row.Address}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -43,7 +43,7 @@ export default function ContractsTable(props) {
               </TableCell>
               <TableCell>{row.Address}</TableCell>
               <TableCell align="right">
-                ?
+                <DeployButton index={index} privateKey={props.privateKey} IndexedDB={props.IndexedDB} />
               </TableCell>
             </TableRow>
           ))}

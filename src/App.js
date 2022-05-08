@@ -6,10 +6,12 @@ import SmartContracts from "./routes/smartContracts";
 
 function App() {
   const [selectedAccount, setSelectedAccount] = useState(null);
+  const [privateKey, setPrivateKey] = useState(null);
 
-  const changeAccount = (account) => {
+  const changeAccount = (account, pk) => {
     console.log("changeAccount ", account);
     setSelectedAccount(account);
+    setPrivateKey(pk);
   };
 
   return (
@@ -27,7 +29,14 @@ function App() {
               />
             }
           />
-          <Route path="Smart%20Contracts" element={<SmartContracts />} />
+          <Route
+            path="Smart%20Contracts"
+            element={
+              <SmartContracts 
+                selectedAccount={selectedAccount} 
+                privateKey={privateKey}
+              />}
+          />
           <Route path="*" element={<div>Not Found</div>} />
         </Routes>
       </BrowserRouter>

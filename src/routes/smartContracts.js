@@ -1,3 +1,4 @@
+import { PropaneSharp } from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
 import ContractsTable from "../components/ContractsTable";
 
@@ -25,6 +26,7 @@ request.onerror = function() {
 
 request.onsuccess = function() {
   db = request.result;
+
   console.log("IndexedDB opened successfully");
   return db;
 };
@@ -42,21 +44,22 @@ request.onupgradeneeded = function() {
 /////END INDEXED DB/////
 
 
-export default function SmartContracts() {
+export default function SmartContracts(props) {
   const [smartContracts, setsmartContracts] = useState([]);
   const [filesContent, setFilesContent] = useState([]);
+  const [IndexedDB, setIndexedDB] = useState(null);
 
   var fs = require("browserify-fs");
 
-  const findSolidityFiles = () => {
-    fs.readdir("/SmartContracts", function(err, files) {
+  const findSolidityFiles = async () => {
+    await fs.readdir("/SmartContracts", function(err, files) {
       if (err) {
         console.log(err);
       } else {
         let names = [];
         let contents = [];
         files.forEach(function(file) {
-          if (file.endsWith(".sol")) {
+          if (file.endsWith(".abi")) {
             names.push(file);
             fs.readFile("/SmartContracts/" + file, "utf8", function(err, data) {
               if (err) {
@@ -99,7 +102,7 @@ export default function SmartContracts() {
       //Escribe también una entrada en la BD
       const transaction = db.transaction("Contracts", "readwrite");
       const store = transaction.objectStore("Contracts");
-      store.put({ id: 1, name: name, address: "", abi: "" });
+      store.put({ id: 1, name: name, address: "", abi: text, bytecode: "" });
     };
     reader.readAsText(e.target.files[0]);
   };
@@ -113,13 +116,14 @@ export default function SmartContracts() {
     const idQuery = store.get(1);
     // 5
     idQuery.onsuccess = function() {
-      console.log("idQuery", idQuery.result);
+      //console.log("idQuery", idQuery.result);
     };
   };
 
   useEffect(() => {
     findSolidityFiles();
     loadContractsFromDB();
+    setIndexedDB(db);
   }, []);
 
   return (
@@ -134,7 +138,7 @@ export default function SmartContracts() {
           onChange={(e) => writeFile(e)}
         />
       </div>
-      <ContractsTable smartContracts={smartContracts} />
+      <ContractsTable smartContracts={smartContracts} filesContent={filesContent} privateKey={props.privateKey} IndexedDB={IndexedDB} />
     </main>
   );
 }

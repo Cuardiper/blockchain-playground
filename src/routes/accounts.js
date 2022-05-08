@@ -73,14 +73,26 @@ export default function Accounts(props) {
     };
     if (mode == 0) {
       const response = await wallet.sendTransaction(transaction);
-      console.log(response);
     }
     else{
       const response = await signer.sendTransaction(transaction);
-      console.log(response);
     }
     fetchAccounts();
   };
+
+  const changeAccount = (address) => {
+    let index = -1;
+    accounts.forEach((account) => {
+      if (account.address === address) {
+        index = accounts.indexOf(account);
+      }
+    });
+    if (index === -1) {
+      alert("This account is not available");
+      return;
+    }
+    props.changeAccount(address, privateKeys[index]);
+  }
 
   useEffect(() => {
     fetchAccounts();
@@ -91,7 +103,7 @@ export default function Accounts(props) {
       <h2>Accounts</h2>
       <AccountsTable
         accounts={accounts}
-        changeAccount={props.changeAccount}
+        changeAccount={(address) => changeAccount(address)}
         sendTransaction={sendTransaction}
       />
     </main>
