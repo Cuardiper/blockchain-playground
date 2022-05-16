@@ -73,8 +73,7 @@ export default function Accounts(props) {
     };
     if (mode == 0) {
       const response = await wallet.sendTransaction(transaction);
-    }
-    else{
+    } else {
       const response = await signer.sendTransaction(transaction);
     }
     fetchAccounts();
@@ -92,7 +91,7 @@ export default function Accounts(props) {
       return;
     }
     props.changeAccount(address, privateKeys[index]);
-  }
+  };
 
   useEffect(() => {
     fetchAccounts();

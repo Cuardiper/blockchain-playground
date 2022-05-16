@@ -32,10 +32,11 @@ function App() {
           <Route
             path="Smart%20Contracts"
             element={
-              <SmartContracts 
-                selectedAccount={selectedAccount} 
+              <SmartContracts
+                selectedAccount={selectedAccount}
                 privateKey={privateKey}
-              />}
+              />
+            }
           />
           <Route path="*" element={<div>Not Found</div>} />
         </Routes>

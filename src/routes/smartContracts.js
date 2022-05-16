@@ -11,8 +11,7 @@ const indexedDB =
   window.shimIndexedDB;
 if (!indexedDB) {
   alert("IndexedDB could not be found in this browser.");
-}
-else {
+} else {
   console.log("IndexedDB found in this browser.");
 }
 
@@ -43,11 +42,10 @@ request.onupgradeneeded = function() {
 };
 /////END INDEXED DB/////
 
-
 export default function SmartContracts(props) {
   const [smartContracts, setsmartContracts] = useState([]);
   const [filesContent, setFilesContent] = useState([]);
-  const [IndexedDB, setIndexedDB] = useState(null);
+  const [IndexedDB, setIndexedDB] = useState(db);
 
   var fs = require("browserify-fs");
 
@@ -103,25 +101,23 @@ export default function SmartContracts(props) {
       const transaction = db.transaction("Contracts", "readwrite");
       const store = transaction.objectStore("Contracts");
       store.put({ id: 1, name: name, address: "", abi: text, bytecode: "" });
+      loadContractsFromDB();
     };
     reader.readAsText(e.target.files[0]);
   };
 
   let loadContractsFromDB = () => {
-    //1
     const transaction = db.transaction("Contracts", "readwrite");
-    //2
     const store = transaction.objectStore("Contracts");
-    //4
-    const idQuery = store.get(1);
-    // 5
+    const idQuery = store.getAll();
     idQuery.onsuccess = function() {
-      //console.log("idQuery", idQuery.result);
+      console.log("idQuery", idQuery.result);
+      setsmartContracts(idQuery.result);
     };
   };
 
   useEffect(() => {
-    findSolidityFiles();
+    //findSolidityFiles();
     loadContractsFromDB();
     setIndexedDB(db);
   }, []);
@@ -138,7 +134,11 @@ export default function SmartContracts(props) {
           onChange={(e) => writeFile(e)}
         />
       </div>
-      <ContractsTable smartContracts={smartContracts} filesContent={filesContent} privateKey={props.privateKey} IndexedDB={IndexedDB} />
+      <ContractsTable
+        smartContracts={smartContracts}
+        privateKey={props.privateKey}
+        indexedDB={IndexedDB}
+      />
     </main>
   );
 }

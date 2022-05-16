@@ -7,19 +7,26 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import DeployButton from "./DeployButton";
+import UploadBytecodeButton from "./UploadBytecodeButton";
 
-function createData(Name, Address) {
-  return { Name, Address };
+function createData(id, name, address, abi, bytecode) {
+  return { id, name, address, abi, bytecode };
 }
 
 export default function ContractsTable(props) {
   const rows = [];
   let contracts = props.smartContracts;
 
-  
-
-  contracts.forEach((contract, index) => {
-    rows.push(createData(contract, '-'));
+  contracts.forEach((contract) => {
+    rows.push(
+      createData(
+        contract.id,
+        contract.name,
+        contract.address,
+        contract.abi,
+        contract.bytecode
+      )
+    );
   });
 
   return (
@@ -33,17 +40,25 @@ export default function ContractsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
+          {rows.map((row) => (
             <TableRow
               key={row.Address}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.Name}
+                {row.name}
               </TableCell>
-              <TableCell>{row.Address}</TableCell>
+              <TableCell>{row.address}</TableCell>
               <TableCell align="right">
-                <DeployButton index={index} privateKey={props.privateKey} IndexedDB={props.IndexedDB} />
+                <UploadBytecodeButton
+                  contract={row}
+                  indexedDB={props.indexedDB}
+                />
+                <DeployButton
+                  contract={row}
+                  privateKey={props.privateKey}
+                  indexedDB={props.indexedDB}
+                />
               </TableCell>
             </TableRow>
           ))}
