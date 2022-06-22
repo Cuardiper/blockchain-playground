@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TransferButton from "./TransferButton";
+import { Button } from "@mui/material";
 
 function createData(Address, Balance) {
   return { Address, Balance };
@@ -17,6 +18,12 @@ export default function AccountsTable(props) {
   props.accounts.forEach((account) => {
     rows.push(createData(account.address, account.balance));
   });
+
+  const changeToSelectedAccount = (address) => {
+    
+    props.changeAccount(address);
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -38,9 +45,9 @@ export default function AccountsTable(props) {
               </TableCell>
               <TableCell align="right">{row.Balance}</TableCell>
               <TableCell align="right">
-                <button onClick={() => props.changeAccount(row.Address)}>
+                <Button onClick={() => changeToSelectedAccount(row.Address)}>
                   Select
-                </button>{" "}
+                </Button>{" "}
                 <TransferButton sendTransaction={props.sendTransaction} address={row.Address} />
               </TableCell>
             </TableRow>

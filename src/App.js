@@ -3,6 +3,17 @@ import ResponsiveAppBar from "./layout/ResponsiveAppBar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Accounts from "./routes/accounts";
 import SmartContracts from "./routes/smartContracts";
+import { createTheme, ThemeProvider  } from '@mui/material/styles';
+import { blue, lightBlue } from '@mui/material/colors';
+
+import './App.css';
+
+const theme = createTheme({
+  palette: {
+    primary: blue,
+    secondary: lightBlue,
+  },
+});
 
 function App() {
   const [selectedAccount, setSelectedAccount] = useState(null);
@@ -16,31 +27,34 @@ function App() {
 
   return (
     <div className="App">
+      <ThemeProvider theme={theme}>
       <BrowserRouter>
         <ResponsiveAppBar selectedAccount={selectedAccount} />
-        <Routes>
-          <Route path="/" element={<div>INICIO</div>} />
-          <Route
-            path="Accounts"
-            element={
-              <Accounts
-                selectedAccount={selectedAccount}
-                changeAccount={changeAccount}
-              />
-            }
-          />
-          <Route
-            path="Smart%20Contracts"
-            element={
-              <SmartContracts
-                selectedAccount={selectedAccount}
-                privateKey={privateKey}
-              />
-            }
-          />
-          <Route path="*" element={<div>Not Found</div>} />
-        </Routes>
-      </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<div>INICIO</div>} />
+            <Route
+              path="Accounts"
+              element={
+                <Accounts
+                  selectedAccount={selectedAccount}
+                  changeAccount={changeAccount}
+                />
+              }
+            />
+            <Route
+              path="Smart%20Contracts"
+              element={
+                <SmartContracts
+                  selectedAccount={selectedAccount}
+                  privateKey={privateKey}
+                />
+              }
+            />
+            <Route path="*" element={<div>Not Found</div>} />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+      
     </div>
   );
 }
