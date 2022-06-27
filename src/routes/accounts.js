@@ -101,6 +101,7 @@ export default function Accounts(props) {
     <main style={{ padding: "1rem 0" }}>
       <h2>Accounts</h2>
       <AccountsTable
+        selectedAccount={props.selectedAccount}
         accounts={accounts}
         changeAccount={(address) => changeAccount(address)}
         sendTransaction={sendTransaction}

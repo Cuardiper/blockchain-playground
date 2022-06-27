@@ -35,7 +35,9 @@ export default function AccountsTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {rows.map((row) => {
+            let text = (row.Address == props.selectedAccount) ? "Selected" : "Select"
+            return(
             <TableRow
               key={row.Address}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -46,12 +48,12 @@ export default function AccountsTable(props) {
               <TableCell align="right">{row.Balance}</TableCell>
               <TableCell align="right">
                 <Button onClick={() => changeToSelectedAccount(row.Address)}>
-                  Select
+                  {text}
                 </Button>{" "}
                 <TransferButton sendTransaction={props.sendTransaction} address={row.Address} />
               </TableCell>
             </TableRow>
-          ))}
+          )})}
         </TableBody>
       </Table>
     </TableContainer>
