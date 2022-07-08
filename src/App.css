@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 a {
     text-decoration: none;
     color: white;
@@ -5,4 +9,8 @@ a {
 
 a:hover{
     color: #f37e21;
+}
+
+#content {
+    padding: 1rem;
 }

@@ -29,6 +29,32 @@ export default function ContractsTable(props) {
     );
   });
 
+  const printButtons = (contract) => {
+    if (contract.address) {
+      return (
+        <div>
+          <span style={{ color: "green", fontWeight: "bold" }}>
+            Contract already deployed!
+          </span>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <DeployButton
+            contract={contract}
+            privateKey={props.privateKey}
+            indexedDB={props.indexedDB}
+          />
+          <UploadBytecodeButton
+            contract={contract}
+            indexedDB={props.indexedDB}
+          />
+        </div>
+      );
+    }
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -49,17 +75,7 @@ export default function ContractsTable(props) {
                 {row.name}
               </TableCell>
               <TableCell>{row.address}</TableCell>
-              <TableCell align="right">
-                <UploadBytecodeButton
-                  contract={row}
-                  indexedDB={props.indexedDB}
-                />
-                <DeployButton
-                  contract={row}
-                  privateKey={props.privateKey}
-                  indexedDB={props.indexedDB}
-                />
-              </TableCell>
+              <TableCell align="right">{printButtons(row)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -20,7 +20,7 @@ const style = {
 const DeployButton = (props) => {
 
   const handleDeploy = async (contract, pk, db) => {
-    if(pk === null) {
+    if(pk === null  || pk == undefined) {
       alert("Please select an account");
       return;
     }

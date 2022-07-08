@@ -30,28 +30,30 @@ function App() {
       <ThemeProvider theme={theme}>
       <BrowserRouter>
         <ResponsiveAppBar selectedAccount={selectedAccount} />
-          <Routes>
-            <Route path="/" element={<div>INICIO</div>} />
-            <Route
-              path="Accounts"
-              element={
-                <Accounts
-                  selectedAccount={selectedAccount}
-                  changeAccount={changeAccount}
-                />
-              }
-            />
-            <Route
-              path="Smart%20Contracts"
-              element={
-                <SmartContracts
-                  selectedAccount={selectedAccount}
-                  privateKey={privateKey}
-                />
-              }
-            />
-            <Route path="*" element={<div>Not Found</div>} />
-          </Routes>
+          <div id="content">
+            <Routes>
+              <Route path="/" element={<div>INICIO</div>} />
+              <Route
+                path="Accounts"
+                element={
+                  <Accounts
+                    selectedAccount={selectedAccount}
+                    changeAccount={changeAccount}
+                  />
+                }
+              />
+              <Route
+                path="Smart%20Contracts"
+                element={
+                  <SmartContracts
+                    selectedAccount={selectedAccount}
+                    privateKey={privateKey}
+                  />
+                }
+              />
+              <Route path="*" element={<div>Not Found</div>} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </ThemeProvider>
       

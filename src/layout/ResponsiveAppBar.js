@@ -55,11 +55,13 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{ mr: 2, display: { xs: "none", md: "flex" } }}
           >
-            <img
-              style={{ height: "75px" }}
-              src="https://upload.wikimedia.org/wikipedia/ca/thumb/b/b5/Logo_upc.svg/1200px-Logo_upc.svg.png"
-              alt="logo"
-            />
+            <Link to="/">
+              <img
+                style={{ height: "75px" }}
+                src="https://upload.wikimedia.org/wikipedia/ca/thumb/b/b5/Logo_upc.svg/1200px-Logo_upc.svg.png"
+                alt="logo"
+              />
+            </Link>
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -106,11 +108,13 @@ const ResponsiveAppBar = (props) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
           >
-            <img
-              style={{ height: "75px" }}
-              src="https://upload.wikimedia.org/wikipedia/ca/thumb/b/b5/Logo_upc.svg/1200px-Logo_upc.svg.png"
-              alt="logo"
-            />
+            <Link to="/">
+              <img
+                style={{ height: "75px" }}
+                src="https://upload.wikimedia.org/wikipedia/ca/thumb/b/b5/Logo_upc.svg/1200px-Logo_upc.svg.png"
+                alt="logo"
+              />
+            </Link>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

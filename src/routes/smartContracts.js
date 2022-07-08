@@ -124,9 +124,9 @@ export default function SmartContracts(props) {
 
   return (
     <main style={{ padding: "1rem 0" }}>
-      <h2>Accounts</h2>
+      <h2>Smart Contracts</h2>
       <div style={{ marginBottom: "2rem" }}>
-        <span style={{ marginRight: "1rem" }}>Upload Contract:</span>
+        <span style={{ marginRight: "1rem" }}>Upload Contract (abi):</span>
         <input
           type="file"
           id="file"
